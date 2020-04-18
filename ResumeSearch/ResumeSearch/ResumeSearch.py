@@ -4,6 +4,9 @@ import tkinter
 
 root = tkinter.Tk()
 
+# file dir path for a txt file
+testPath = "Deskop/resume-search/ResumeSearch/ResumeSearch/something.txt"
+
 # creates the canvas
 resumeSearchBox = tkinter.Canvas(root, width = 500, height = 180)
 resumeSearchBox.pack()
@@ -38,9 +41,21 @@ resumeSearchBox.create_window(160, 140, window = keyword2Txt)
 # will change accordingly in the future
 def getInformation():
     proTxt = professionTxt.get()
+    key1Txt = keyword1Txt.get()
+    key2Txt = keyword2Txt.get()
 
-    output = tkinter.Label(root, text = proTxt)
-    resumeSearchBox.create_window(480, 170, window = output)
+    try:
+        file_tst = open(testPath)
+        output = tkinter.Label(root, text = 'TRUE')
+        resumeSearchBox.create_window(400, 170, window = output)
+        file_tst.close()
+
+    except FileNotFoundError:
+        output = tkinter.Label(root, text = 'FALSE')
+        resumeSearchBox.create_window(400, 170, window = output)
+
+    #output = tkinter.Label(root, text = proTxt)
+    #resumeSearchBox.create_window(400, 170, window = output)
 
 # making a button
 button = tkinter.Button(resumeSearchBox, text = 'Here comes the money!', bg = 'green', fg = 'white', command = getInformation)
