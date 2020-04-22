@@ -1,11 +1,12 @@
 # Marco Romero
 
 import tkinter
+import os
 
 root = tkinter.Tk()
 
 # file dir path for a txt file
-testPath = "Deskop/resume-search/ResumeSearch/ResumeSearch/something.txt"
+TEST_PATH = r"C:\\Users\\mar807\\Desktop\\resume-search\\ResumeSearch\\ResumeSearch"
 
 # creates the canvas
 resumeSearchBox = tkinter.Canvas(root, width = 500, height = 180)
@@ -45,7 +46,7 @@ def getInformation():
     key2Txt = keyword2Txt.get()
 
     try:
-        file_tst = open(testPath)
+        file_tst = open(TEST_PATH)
         output = tkinter.Label(root, text = 'TRUE')
         resumeSearchBox.create_window(400, 170, window = output)
         file_tst.close()
