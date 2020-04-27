@@ -37,29 +37,34 @@ resumeSearchBox.create_window(160, 110, window = keyword1Txt)
 keyword2Txt = tkinter.Entry(root)
 resumeSearchBox.create_window(160, 140, window = keyword2Txt)
 
-
 # this function will get the value that was inserted in text box. 
 # will change accordingly in the future
-def getInformation():
+def getDirectory(dir):
     proTxt = professionTxt.get()
-    key1Txt = keyword1Txt.get()
-    key2Txt = keyword2Txt.get()
+    
+    # ***************
 
-    try:
-        file_tst = open(TEST_PATH)
-        output = tkinter.Label(root, text = 'TRUE')
-        resumeSearchBox.create_window(400, 170, window = output)
-        file_tst.close()
+    # saving these for the next function 
+    # thought process: if the employee type exists, it will go to another function and search for the keywords
+    
+    # ***************
+    
+    # key1Txt = keyword1Txt.get()
+    # key2Txt = keyword2Txt.get()
 
-    except FileNotFoundError:
-        output = tkinter.Label(root, text = 'FALSE')
-        resumeSearchBox.create_window(400, 170, window = output)
+    fileNames = os.listdir(dir)
 
+    # goes through all the files and file paths that exist in the directory
+    for fileName in fileNames:
+        print ('File Name: ' + fileName)
+        print('Folder Path: ' + os.path.abspath(os.path.join(dir, fileName)), sep = '\n')
+
+getDirectory(TEST_PATH)
     #output = tkinter.Label(root, text = proTxt)
     #resumeSearchBox.create_window(400, 170, window = output)
 
 # making a button
-button = tkinter.Button(resumeSearchBox, text = 'Here comes the money!', bg = 'green', fg = 'white', command = getInformation)
+button = tkinter.Button(resumeSearchBox, text = 'Here comes the money!', bg = 'green', fg = 'white', command = getDirectory)
 resumeSearchBox.create_window(400, 140, window = button)
 
 # starts the program

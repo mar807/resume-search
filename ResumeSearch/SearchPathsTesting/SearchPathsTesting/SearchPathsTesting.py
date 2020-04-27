@@ -18,7 +18,7 @@ def pathingDir(dir):
         #prints the paths of the files
         print('Folder Path: ' + os.path.abspath(os.path.join(dir, fileName)), sep = '\n')
 
-# calls the function with the file path as the argument
+# calls the function with the TEST_PATH as the argument
 if __name__ == '__main__':
     pathingDir(TEST_PATH)
 
