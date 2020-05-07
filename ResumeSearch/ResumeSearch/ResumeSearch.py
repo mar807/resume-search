@@ -2,11 +2,12 @@
 
 import tkinter
 import os
+import sys
 
 root = tkinter.Tk()
 
 # file dir path for a txt file
-TEST_PATH = r"C:\\Users\\mar807\\Desktop\\resume-search\\ResumeSearch\\ResumeSearch"
+TEST_PATH = r"C:\\Users\\mar807\\Desktop\\resume-search\\ResumeSearch\\ResumeSearch\\testfiles"
 
 # creates the canvas
 resumeSearchBox = tkinter.Canvas(root, width = 500, height = 180)
@@ -39,27 +40,60 @@ resumeSearchBox.create_window(160, 140, window = keyword2Txt)
 
 # this function will get the value that was inserted in text box. 
 # will change accordingly in the future
-def getDirectory(dir):
+def getDirectory():
     proTxt = professionTxt.get()
+    key1Txt = keyword1Txt.get()
+    key2Txt = keyword2Txt.get()
+
+    # if profession text is software engineering, it will go to that file directory
+    if proTxt == 'Software Engineering':
+        path = r"C:\\Users\\mar807\\Desktop\\resume-search\\ResumeSearch\\ResumeSearch\\Software Engineering"
+        # list all of the file names that are in the directory
+        fileNames = os.listdir(path)
+
+        # for loop that goes through all files in the directory
+        for fileName in fileNames:
+            # open the file with every for loop
+            with open(os.path.join(fileNames, fileName), 'r') as searchFile:
+                # then search all the lines in a file
+                for line in searchFile:
+                    # if one of the two keywords are in the file, then it will print the file name
+                    if key1Txt in line or key2Txt in line:
+                        print('File Name: ' + fileNames)
+                    # close each file once it is done with it
+                    fileName.close()
+
+    elif proTxt == 'Project Manager':
+        path = r"C:\\Users\\mar807\\Desktop\\resume-search\\ResumeSearch\\ResumeSearch\\Project Manager"
+        fileNames = os.listdir(path)
+
+        for fileName in fileNames:
+            with open(fileName) as searchFile:
+                for line in searchFile:
+                    if key1Txt in line or key2Txt in line:
+                        print('File Name: ' + fileName)
+
+    elif proTxt == 'Database Developer':
+        path = r"C:\\Users\\mar807\\Desktop\\resume-search\\ResumeSearch\\ResumeSearch\\Database Developer"
+        fileNames = os.listdir(path)
+
+        for fileName in fileNames:
+            with open(fileName) as searchFile:
+                for line in searchFile:
+                    if key1Txt in line or key2Txt in line:
+                        print('File Name: ' + fileName)
+
+    elif proTxt == 'Walmart':
+        path = r"C:\\Users\\mar807\\Desktop\\resume-search\\ResumeSearch\\ResumeSearch\\Walmart"
+        fileNames = os.listdir(path)
+
+        for fileName in fileNames:
+            with open(fileName) as searchFile:
+                for line in searchFile:
+                    if key1Txt in line or key2Txt in line:
+                        print('File Name: ' + fileName)
+
     
-    # ***************
-
-    # saving these for the next function 
-    # thought process: if the employee type exists, it will go to another function and search for the keywords
-    
-    # ***************
-    
-    # key1Txt = keyword1Txt.get()
-    # key2Txt = keyword2Txt.get()
-
-    fileNames = os.listdir(dir)
-
-    # goes through all the files and file paths that exist in the directory
-    for fileName in fileNames:
-        print ('File Name: ' + fileName)
-        print('Folder Path: ' + os.path.abspath(os.path.join(dir, fileName)), sep = '\n')
-
-getDirectory(TEST_PATH)
     #output = tkinter.Label(root, text = proTxt)
     #resumeSearchBox.create_window(400, 170, window = output)
 
