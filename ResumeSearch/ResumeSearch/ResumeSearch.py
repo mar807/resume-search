@@ -3,11 +3,9 @@
 import tkinter
 import os
 import sys
+import docx
 
 root = tkinter.Tk()
-
-# file dir path for a txt file
-TEST_PATH = r"C:\\Users\\mar807\\Desktop\\resume-search\\ResumeSearch\\ResumeSearch\\testfiles"
 
 # creates the canvas
 resumeSearchBox = tkinter.Canvas(root, width = 500, height = 180)
@@ -22,6 +20,20 @@ resumeSearchBox.create_window(250, 25, window = greetingLabel)
 label1 = tkinter.Label(root, text = 'Employee Type: ')
 resumeSearchBox.create_window(50, 80, window = label1)
 
+# making a dropdown list
+OCCUPATIONS = [
+    'Software Engineer', 
+    'Database Developer', 
+    'Project Manager', 
+    'Walmart'
+    ]
+
+clicked = tkinter.StringVar()
+clicked.set(OCCUPATIONS[0])
+
+choices = tkinter.OptionMenu(root, clicked, *OCCUPATIONS)
+choices.pack()
+
 label2 = tkinter.Label(root, text = 'Keyword: ')
 resumeSearchBox.create_window(69, 110, window = label2)
 
@@ -29,8 +41,8 @@ label3 = tkinter.Label(root, text = 'Keyword: ')
 resumeSearchBox.create_window(69, 140, window = label3)
 
 # adds all the text input boxes
-professionTxt = tkinter.Entry(root)
-resumeSearchBox.create_window(160, 80, window = professionTxt)
+#professionTxt = tkinter.Entry(root)
+#resumeSearchBox.create_window(160, 80, window = professionTxt)
 
 keyword1Txt = tkinter.Entry(root)
 resumeSearchBox.create_window(160, 110, window = keyword1Txt)
@@ -41,27 +53,39 @@ resumeSearchBox.create_window(160, 140, window = keyword2Txt)
 # this function will get the value that was inserted in text box. 
 # will change accordingly in the future
 def getDirectory():
-    proTxt = professionTxt.get()
+    proTxt = clicked.get()
     key1Txt = keyword1Txt.get()
     key2Txt = keyword2Txt.get()
 
     # if profession text is software engineering, it will go to that file directory
-    if proTxt == 'Software Engineering':
-        path = r"C:\\Users\\mar807\\Desktop\\resume-search\\ResumeSearch\\ResumeSearch\\Software Engineering"
+    if proTxt == 'Software Engineer':
+        # creating an empty list to hold 
+        doc_list = {}
+        index = 0
+        # changes the directory we are looking at
+        os.chdir("/Users/mar807/Desktop/resume-search/ResumeSearch/ResumeSearch/Software Engineering")
+
+        path = r"C:\Users\mar807\Desktop\resume-search\ResumeSearch\ResumeSearch\Software Engineering"
         # list all of the file names that are in the directory
         fileNames = os.listdir(path)
 
         # for loop that goes through all files in the directory
         for fileName in fileNames:
             # open the file with every for loop
-            with open(os.path.join(fileNames, fileName), 'r') as searchFile:
-                # then search all the lines in a file
-                for line in searchFile:
-                    # if one of the two keywords are in the file, then it will print the file name
-                    if key1Txt in line or key2Txt in line:
-                        print('File Name: ' + fileNames)
-                    # close each file once it is done with it
-                    fileName.close()
+            #with open(os.path.join(path, fileName), encoding = "Latin-1") as searchFile:
+
+            document = docx.Document(fileName)
+            # then search all the lines in a file
+            for line in document.paragraphs:
+                doc_list[index] = line.text 
+                index += 1
+                # reads through each line in the file and if the word matches, print the file name 
+                try:
+                    if key1Txt in doc_list[index] or key2Txt in doc_list[index]:
+                        print('File Name: ' + fileName)
+                except KeyError:
+                    print('Good job Marco. Go drink an organic smoothie and stay peaceful onna punk bitch sock it to me')
+                #document.close()
 
     elif proTxt == 'Project Manager':
         path = r"C:\\Users\\mar807\\Desktop\\resume-search\\ResumeSearch\\ResumeSearch\\Project Manager"
