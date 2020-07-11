@@ -32,7 +32,8 @@ clicked = tkinter.StringVar()
 clicked.set(OCCUPATIONS[0])
 
 choices = tkinter.OptionMenu(root, clicked, *OCCUPATIONS)
-choices.pack()
+# figure a way to make it not change when changing the window size
+choices.place(x = 95, y = 65)
 
 label2 = tkinter.Label(root, text = 'Keyword: ')
 resumeSearchBox.create_window(69, 110, window = label2)
@@ -59,13 +60,12 @@ def getDirectory():
 
     # if profession text is software engineering, it will go to that file directory
     if proTxt == 'Software Engineer':
-        # creating an empty list to hold 
-        doc_list = {}
-        index = 0
+        
         # changes the directory we are looking at
         os.chdir("/Users/mar807/Desktop/resume-search/ResumeSearch/ResumeSearch/Software Engineering")
 
         path = r"C:\Users\mar807\Desktop\resume-search\ResumeSearch\ResumeSearch\Software Engineering"
+        
         # list all of the file names that are in the directory
         fileNames = os.listdir(path)
 
@@ -74,17 +74,27 @@ def getDirectory():
             # open the file with every for loop
             #with open(os.path.join(path, fileName), encoding = "Latin-1") as searchFile:
 
-            document = docx.Document(fileName)
+            document = docx.Document('man.docx')
+
+            # empty array that will append words on a document
+            texts = []
+            
+            count = 0
+
             # then search all the lines in a file
             for line in document.paragraphs:
-                doc_list[index] = line.text 
-                index += 1
-                # reads through each line in the file and if the word matches, print the file name 
-                try:
-                    if key1Txt in doc_list[index] or key2Txt in doc_list[index]:
-                        print('File Name: ' + fileName)
-                except KeyError:
-                    print('Good job Marco. Go drink an organic smoothie and stay peaceful onna punk bitch sock it to me')
+                # append each word or paragraph (look this up)
+                 texts.append(line.text)
+
+                # if a word matches with one of the keywords, then print out the file name
+                 if key1Txt in '\n'.join(texts) or key2Txt in '\n'.join(texts):
+                    print(fileName)
+                    count += 1
+
+            if count == 0:
+                print('nothing in file: ' + fileName)
+               
+                # if it doesnt then print cant find or something
                 #document.close()
 
     elif proTxt == 'Project Manager':
