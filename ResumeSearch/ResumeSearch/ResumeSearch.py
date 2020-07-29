@@ -24,8 +24,7 @@ resumeSearchBox.create_window(50, 80, window = label1)
 OCCUPATIONS = [
     'Software Engineer', 
     'Database Developer', 
-    'Project Manager', 
-    'Walmart'
+    'Project Manager'
     ]
 
 clicked = tkinter.StringVar()
@@ -40,10 +39,6 @@ resumeSearchBox.create_window(69, 110, window = label2)
 
 label3 = tkinter.Label(root, text = 'Keyword: ')
 resumeSearchBox.create_window(69, 140, window = label3)
-
-# adds all the text input boxes
-#professionTxt = tkinter.Entry(root)
-#resumeSearchBox.create_window(160, 80, window = professionTxt)
 
 keyword1Txt = tkinter.Entry(root)
 resumeSearchBox.create_window(160, 110, window = keyword1Txt)
@@ -74,7 +69,7 @@ def getDirectory():
             # open the file with every for loop
             #with open(os.path.join(path, fileName), encoding = "Latin-1") as searchFile:
 
-            document = docx.Document('man.docx')
+            document = docx.Document(fileName)
 
             # empty array that will append words on a document
             texts = []
@@ -90,6 +85,8 @@ def getDirectory():
                  if key1Txt in '\n'.join(texts) or key2Txt in '\n'.join(texts):
                     print(fileName)
                     count += 1
+                    # stops the for loop
+                    break
 
             if count == 0:
                 print('nothing in file: ' + fileName)
@@ -97,35 +94,48 @@ def getDirectory():
                 # if it doesnt then print cant find or something
                 #document.close()
 
+    ################################################################### 
+    #
+    # I will not be commenting out what each line does since it is 
+    # identical to the block of code up above
+    #
+    ###################################################################
+
     elif proTxt == 'Project Manager':
+
+        os.chdir("/Users/mar807/Desktop/resume-search/ResumeSearch/ResumeSearch/Project Manager")
+
         path = r"C:\\Users\\mar807\\Desktop\\resume-search\\ResumeSearch\\ResumeSearch\\Project Manager"
+
         fileNames = os.listdir(path)
 
         for fileName in fileNames:
-            with open(fileName) as searchFile:
-                for line in searchFile:
-                    if key1Txt in line or key2Txt in line:
-                        print('File Name: ' + fileName)
+            document = docx.Document(fileName)
+            
+            texts = []
+            
+            for line in document.paragraphs:
+                texts.append(line.text)
+
+                if key1Txt in '\n'.join(texts) or key2Txt in '\n'.join(texts):
+                    print(fileName)
 
     elif proTxt == 'Database Developer':
+
+        os.chdir("/Users/mar807/Desktop/resume-search/ResumeSearch/ResumeSearch/Project Manager")
+
         path = r"C:\\Users\\mar807\\Desktop\\resume-search\\ResumeSearch\\ResumeSearch\\Database Developer"
+        
         fileNames = os.listdir(path)
 
         for fileName in fileNames:
-            with open(fileName) as searchFile:
-                for line in searchFile:
-                    if key1Txt in line or key2Txt in line:
-                        print('File Name: ' + fileName)
+            documet = docx.Document(fileName)
+            texts = []
+            for line in document.paragraphs:
+                texts.append(line.text)
 
-    elif proTxt == 'Walmart':
-        path = r"C:\\Users\\mar807\\Desktop\\resume-search\\ResumeSearch\\ResumeSearch\\Walmart"
-        fileNames = os.listdir(path)
-
-        for fileName in fileNames:
-            with open(fileName) as searchFile:
-                for line in searchFile:
-                    if key1Txt in line or key2Txt in line:
-                        print('File Name: ' + fileName)
+                if key1Txt in '\n'.join(texts) or key2Txt in '\n'.join*(texts):
+                    print(fileName)
 
     
     #output = tkinter.Label(root, text = proTxt)
