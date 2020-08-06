@@ -1,9 +1,15 @@
 # Marco Romero
 
+#just installed PyPDF2 library so I can read through pdf files.
+# TODO: make if statements to handle doc files and pdf files. im assuming that if i keep the code the way it is, 
+# i'll run into problems because it's going to start dealing with pdf and doc files.
+
+
 import tkinter
 import os
 import sys
 import docx
+import PyPDF2
 
 root = tkinter.Tk()
 
@@ -28,7 +34,7 @@ OCCUPATIONS = [
     ]
 
 clicked = tkinter.StringVar()
-clicked.set(OCCUPATIONS[0])
+clicked.set(OCCUPATIONS[0]) 
 
 choices = tkinter.OptionMenu(root, clicked, *OCCUPATIONS)
 # figure a way to make it not change when changing the window size
@@ -61,6 +67,7 @@ def getDirectory():
 
         path = r"C:\Users\mar807\Desktop\resume-search\ResumeSearch\ResumeSearch\Software Engineering"
         
+        readFiles poo
         # list all of the file names that are in the directory
         fileNames = os.listdir(path)
 
