@@ -55,9 +55,8 @@ resumeSearchBox.create_window(160, 140, window = keyword2Txt)
 # this function will get the value that was inserted in text box. 
 # will change accordingly in the future
 def getDirectory():
+    # only getting the profession we are looking for so we know which directory to go to
     proTxt = clicked.get()
-    key1Txt = keyword1Txt.get()
-    key2Txt = keyword2Txt.get()
 
     # if profession text is software engineering, it will go to that file directory
     if proTxt == 'Software Engineer':
@@ -67,86 +66,60 @@ def getDirectory():
 
         path = r"C:\Users\mar807\Desktop\resume-search\ResumeSearch\ResumeSearch\Software Engineering"
         
-        readFiles poo
-        # list all of the file names that are in the directory
-        fileNames = os.listdir(path)
 
-        # for loop that goes through all files in the directory
-        for fileName in fileNames:
-            # open the file with every for loop
-            #with open(os.path.join(path, fileName), encoding = "Latin-1") as searchFile:
-
-            document = docx.Document(fileName)
-
-            # empty array that will append words on a document
-            texts = []
-            
-            count = 0
-
-            # then search all the lines in a file
-            for line in document.paragraphs:
-                # append each word or paragraph (look this up)
-                 texts.append(line.text)
-
-                # if a word matches with one of the keywords, then print out the file name
-                 if key1Txt in '\n'.join(texts) or key2Txt in '\n'.join(texts):
-                    print(fileName)
-                    count += 1
-                    # stops the for loop
-                    break
-
-            if count == 0:
-                print('nothing in file: ' + fileName)
-               
-                # if it doesnt then print cant find or something
-                #document.close()
-
-    ################################################################### 
-    #
-    # I will not be commenting out what each line does since it is 
-    # identical to the block of code up above
-    #
-    ###################################################################
+        # go to another function that search through every file in the directory
+        searchFiles(path)
 
     elif proTxt == 'Project Manager':
-
         os.chdir("/Users/mar807/Desktop/resume-search/ResumeSearch/ResumeSearch/Project Manager")
+        path = r"C:\Users\mar807\Desktop\resume-search\ResumeSearch\ResumeSearch\Project Manager"
 
-        path = r"C:\\Users\\mar807\\Desktop\\resume-search\\ResumeSearch\\ResumeSearch\\Project Manager"
-
-        fileNames = os.listdir(path)
-
-        for fileName in fileNames:
-            document = docx.Document(fileName)
-            
-            texts = []
-            
-            for line in document.paragraphs:
-                texts.append(line.text)
-
-                if key1Txt in '\n'.join(texts) or key2Txt in '\n'.join(texts):
-                    print(fileName)
+        searchFiles(path)
 
     elif proTxt == 'Database Developer':
+        os.chdir("/Users/mar807/Desktop/resume-search/ResumeSearch/ResumeSearch/Database Developer")
+        path = r"C:\Users\mar807\Desktop\resume-search\ResumeSearch\ResumeSearch\Database Developer"
 
-        os.chdir("/Users/mar807/Desktop/resume-search/ResumeSearch/ResumeSearch/Project Manager")
+        searchFiles(path)
 
-        path = r"C:\\Users\\mar807\\Desktop\\resume-search\\ResumeSearch\\ResumeSearch\\Database Developer"
+def searchFiles(path):
+    # getting the keywords that was typed in the application
+    key1Txt = keyword1Txt.get()
+    key2Txt = keyword2Txt.get()
+
+    #list all of the file names that are in the directory
+    fileNames = os.listdir(path)
         
-        fileNames = os.listdir(path)
-
-        for fileName in fileNames:
-            documet = docx.Document(fileName)
+    # for loop that goes through all files in the directory
+    for fileName in fileNames:
+        
+        # if the file is a word doc, then it would do all of this
+        if fileName.endswith('.docx'):
+            #open the file with every loop
+            document = docx.Document(fileName)
+        
+            # empty array that will append words on a document
             texts = []
+            count = 0
+
+            # then search all the lines in the file
             for line in document.paragraphs:
+                #append each word or paragpraph 
                 texts.append(line.text)
+            
+                # if a word matches with one of the keywords, then print out the file name
+                if key1Txt in '\n'.join(texts) or key2Txt in '\n'.join(texts):
+                        print(fileName)
+                        break
 
-                if key1Txt in '\n'.join(texts) or key2Txt in '\n'.join*(texts):
-                    print(fileName)
+        elif fileName.endswith('.pdf'):
+            # creating a pdf file object
+            pdfFileObj = PyPDF2.open(fileName, 'rb')
+            # creating a pdf reader object
+            pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
 
-    
-    #output = tkinter.Label(root, text = proTxt)
-    #resumeSearchBox.create_window(400, 170, window = output)
+
+
 
 # making a button
 button = tkinter.Button(resumeSearchBox, text = 'Here comes the money!', bg = 'green', fg = 'white', command = getDirectory)
