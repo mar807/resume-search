@@ -66,7 +66,6 @@ def getDirectory():
 
         path = r"C:\Users\mar807\Desktop\resume-search\ResumeSearch\ResumeSearch\Software Engineering"
         
-
         # go to another function that search through every file in the directory
         searchFiles(path)
 
@@ -113,13 +112,24 @@ def searchFiles(path):
                         break
 
         elif fileName.endswith('.pdf'):
-            # creating a pdf file object
-            pdfFileObj = PyPDF2.open(fileName, 'rb')
-            # creating a pdf reader object
-            pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
+            # creating pdf object
+            pdf = PyPDF2.PdfFileReader(fileName)
 
+            # open the file
+            with open(fileName, 'rb') as f:
 
+                # for loop depending on how many pages there is on the pdf file
+                for pageNum in range(pdf.numPages):
+                    # page numbers of pdf
+                    pageObj = pdf.getPage(pageNum)
 
+                    # keeps track of the text in the pdf file
+                    text = pageObj.extractText()
+
+                    # if the keyword is in the file, then it will print the file
+                    if key1Txt in text or key2Txt in text:
+                        print(fileName)
+                        break
 
 # making a button
 button = tkinter.Button(resumeSearchBox, text = 'Here comes the money!', bg = 'green', fg = 'white', command = getDirectory)
