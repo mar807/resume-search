@@ -1,15 +1,12 @@
 # Marco Romero
 
-#just installed PyPDF2 library so I can read through pdf files.
-# TODO: make if statements to handle doc files and pdf files. im assuming that if i keep the code the way it is, 
-# i'll run into problems because it's going to start dealing with pdf and doc files.
-
 
 import tkinter
 import os
 import sys
 import docx
 import PyPDF2
+import re
 
 root = tkinter.Tk()
 
@@ -110,26 +107,26 @@ def searchFiles(path):
                 if key1Txt in '\n'.join(texts) or key2Txt in '\n'.join(texts):
                         print(fileName)
                         break
-
+        
         elif fileName.endswith('.pdf'):
             # creating pdf object
             pdf = PyPDF2.PdfFileReader(fileName)
+            # get page numbers of pdf
+            pageNum = pdf.getNumPages()
+            
+            # loops through pages in pdf file
+            for i in range(0, pageNum):
+                # looks at page number
+                pageObj = pdf.getPage(i)
 
-            # open the file
-            with open(fileName, 'rb') as f:
+                # extracts the text in the pdf
+                text = pageObj.extractText()
+                
+                # if keywords are in the pdf then print out the file name
+                if text in key1Txt or text in key2Txt:
+                    print(fileName)
+                    break
 
-                # for loop depending on how many pages there is on the pdf file
-                for pageNum in range(pdf.numPages):
-                    # page numbers of pdf
-                    pageObj = pdf.getPage(pageNum)
-
-                    # keeps track of the text in the pdf file
-                    text = pageObj.extractText()
-
-                    # if the keyword is in the file, then it will print the file
-                    if key1Txt in text or key2Txt in text:
-                        print(fileName)
-                        break
 
 # making a button
 button = tkinter.Button(resumeSearchBox, text = 'Here comes the money!', bg = 'green', fg = 'white', command = getDirectory)
