@@ -1,5 +1,8 @@
 # Marco Romero
 
+#TODO: able to search for keywords in both pdf files and doc files now.
+# NOW I have to figure out how to put the files that have the keywords, into
+# another folder so they can be clickable
 
 import tkinter
 import os
@@ -101,7 +104,7 @@ def searchFiles(path):
             # then search all the lines in the file
             for line in document.paragraphs:
                 #append each word or paragpraph 
-                texts.append(line.text)
+                texts.append(line.text.lower())
             
                 # if a word matches with one of the keywords, then print out the file name
                 if key1Txt in '\n'.join(texts) or key2Txt in '\n'.join(texts):
@@ -123,7 +126,7 @@ def searchFiles(path):
                 text = pageObj.extractText()
                 
                 # if keywords are in the pdf then print out the file name
-                if text in key1Txt or text in key2Txt:
+                if key1Txt in text.lower() or key2Txt in text.lower():
                     print(fileName)
                     break
 
