@@ -1,15 +1,13 @@
 # Marco Romero
 
-#TODO: able to search for keywords in both pdf files and doc files now.
-# NOW I have to figure out how to put the files that have the keywords, into
-# another folder so they can be clickable
-
 import tkinter
 import os
 import sys
 import docx
 import PyPDF2
 import re
+import shutil
+import glob
 
 root = tkinter.Tk()
 
@@ -86,6 +84,9 @@ def searchFiles(path):
     key1Txt = keyword1Txt.get()
     key2Txt = keyword2Txt.get()
 
+    # creating the destination directory to place the files that matched the keywords
+    destCopy = '/Users/mar807/Desktop/results'
+
     #list all of the file names that are in the directory
     fileNames = os.listdir(path)
         
@@ -106,10 +107,11 @@ def searchFiles(path):
                 #append each word or paragpraph 
                 texts.append(line.text.lower())
             
-                # if a word matches with one of the keywords, then print out the file name
+                # if a word matches with one of the keywords, then copies the file into the directory
                 if key1Txt in '\n'.join(texts) or key2Txt in '\n'.join(texts):
-                        print(fileName)
-                        break
+                    # copies the file into the directory
+                    shutil.copy2(fileName, destCopy)
+                    break
         
         elif fileName.endswith('.pdf'):
             # creating pdf object
@@ -127,13 +129,22 @@ def searchFiles(path):
                 
                 # if keywords are in the pdf then print out the file name
                 if key1Txt in text.lower() or key2Txt in text.lower():
-                    print(fileName)
+                    # copies the files into the directory
+                    shutil.copy2(fileName, destCopy)
                     break
 
+def clearFile():
+    resetDirectory = glob.glob('/Users/mar807/Desktop/results/*')
+
+    for files in resetDirectory:
+        os.remove(files)
 
 # making a button
-button = tkinter.Button(resumeSearchBox, text = 'Here comes the money!', bg = 'green', fg = 'white', command = getDirectory)
-resumeSearchBox.create_window(400, 140, window = button)
+searchButton = tkinter.Button(resumeSearchBox, text = 'Here comes the money!', bg = 'green', fg = 'white', command = getDirectory)
+resumeSearchBox.create_window(400, 140, window = searchButton)
+
+clearButton = tkinter.Button(resumeSearchBox, text = 'Clear', bg = 'red', fg = 'black', command = clearFile)
+resumeSearchBox.create_window(300, 140, window = clearButton)
 
 # starts the program
 resumeSearchBox.mainloop()
